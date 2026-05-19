@@ -23,8 +23,8 @@ class MonthlyReportController extends Controller
 
     public function index(Request $request)
     {
-        $month = $request->get('month', Carbon::now()->month);
-        $year = $request->get('year', Carbon::now()->year);
+        $month = $request->input('month', Carbon::now()->month);
+        $year = $request->input('year', Carbon::now()->year);
         $user = Auth::user();
 
         $report = $this->reportService->generateMonthlyReport($user, $month, $year);

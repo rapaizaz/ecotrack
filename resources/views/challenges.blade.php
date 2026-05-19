@@ -7,7 +7,7 @@
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- Active User Challenges -->
+    
     <div class="space-y-6">
         <h2 class="text-xl font-bold text-slate-800">Tantangan Sedang Diikuti</h2>
         @forelse($userChallenges->where('pivot.status', 'ongoing') as $challenge)
@@ -69,7 +69,7 @@
         @endforeach
     </div>
 
-    <!-- Available Challenges -->
+    
     <div class="space-y-6">
         <h2 class="text-xl font-bold text-slate-800">Tantangan Tersedia</h2>
         @foreach($allChallenges as $challenge)

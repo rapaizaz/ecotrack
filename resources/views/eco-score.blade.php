@@ -7,7 +7,7 @@
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-    <!-- Main Score Circle -->
+    
     <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center">
         <div class="relative w-48 h-48 mb-6">
             <svg class="w-full h-full -rotate-90">
@@ -23,7 +23,7 @@
         <p class="text-slate-500 text-sm">Update terakhir: {{ $ecoScore ? $ecoScore->updated_at->format('d M Y') : '-' }}</p>
     </div>
 
-    <!-- Breakdown Cards -->
+    
     <div class="lg:col-span-2 space-y-4">
         <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center gap-6">
             <div class="w-16 h-16 rounded-2xl bg-yellow-50 text-yellow-600 flex items-center justify-center text-2xl">
@@ -71,7 +71,7 @@
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- Recommendations -->
+    
     <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
         <h3 class="text-xl font-bold mb-6 flex items-center gap-3">
             <i class="fas fa-lightbulb text-yellow-500"></i> Rekomendasi Khusus Kamu
@@ -88,7 +88,7 @@
         </div>
     </div>
 
-    <!-- Score History -->
+    
     <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
         <h3 class="text-xl font-bold mb-6">Riwayat Skor Bulanan</h3>
         <div class="space-y-4">

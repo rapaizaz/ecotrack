@@ -17,7 +17,7 @@
 
     @if($insight)
         <div class="space-y-8 animate-in fade-in duration-700">
-            <!-- Main Insight Card -->
+            
             <div class="bg-white rounded-[2rem] border border-slate-200 shadow-xl overflow-hidden relative">
                 <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-right from-emerald-500 to-blue-500"></div>
                 <div class="p-10">
@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <!-- Suggestion Grid -->
+            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="bg-emerald-50 rounded-3xl p-6 border border-emerald-100">
                     <div class="w-10 h-10 bg-emerald-600 text-white rounded-xl flex items-center justify-center mb-4">

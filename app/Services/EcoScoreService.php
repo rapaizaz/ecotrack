@@ -71,8 +71,8 @@ class EcoScoreService
         $wScore = $water ? $this->calculateWaterScore($water->cubic_meter) : 0;
         $waScore = $totalWaste > 0 ? $this->calculateWasteScore($totalWaste) : 0;
 
-        // If no data, we might not want to create a score or set it to 0
-        // But the requirement says average of the three.
+        
+        
         $totalScore = round(($eScore + $wScore + $waScore) / 3);
 
         $ecoScore = EcoScore::updateOrCreate(

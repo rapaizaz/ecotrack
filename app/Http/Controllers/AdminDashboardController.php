@@ -32,7 +32,7 @@ class AdminDashboardController extends Controller
             ->orderBy('users_count', 'desc')
             ->first();
 
-        // Global Statistics Chart Data
+        
         $monthlyStats = EcoScore::select(
             DB::raw('month'),
             DB::raw('year'),

@@ -19,9 +19,9 @@
 </head>
 <body class="text-slate-800" x-data="{ mobileMenu: false }">
     <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
+        
         @auth
-        <!-- Mobile Overlay -->
+        
         <div x-show="mobileMenu" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-slate-900/50 z-40 md:hidden backdrop-blur-sm" @click="mobileMenu = false" x-cloak></div>
 
         <aside :class="mobileMenu ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" class="fixed md:relative inset-y-0 left-0 w-64 bg-white border-r border-slate-200 flex flex-col z-50 transition-transform duration-300 ease-in-out">
@@ -96,9 +96,9 @@
                 @endif
             </nav>
             <div class="p-4 border-t border-slate-100">
-                <a href="{{ route('profile') }}" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-all">
-                    <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center text-white">
-                        {{ substr(Auth::user()->name, 0, 1) }}
+                <a href="{{ route('profile') }}" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-all text-left">
+                    <div class="w-10 h-10 rounded-full bg-[#f0f2f5] flex items-end justify-center overflow-hidden border border-slate-200">
+                        <i class="fas fa-user text-[#bfc5c9] text-2xl mb-[-3px]"></i>
                     </div>
                     <div class="flex-1 overflow-hidden">
                         <p class="text-sm font-semibold truncate">{{ Auth::user()->name }}</p>
@@ -115,10 +115,10 @@
         </aside>
         @endauth
 
-        <!-- Main Content -->
+        
         <main class="flex-1 overflow-y-auto bg-slate-50 relative">
             @auth
-            <header class="h-16 bg-white border-b border-slate-200 sticky top-0 z-10 flex items-center justify-between px-8 md:hidden">
+            <header class="h-16 bg-white border-b border-slate-200 sticky top-0 z-50 flex items-center justify-between px-8 md:hidden">
                  <a href="{{ route('home') }}" class="flex items-center gap-2">
                     <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm border border-slate-100 overflow-hidden">
                         <img src="{{ asset('asset/image/logo1.png') }}" alt="EcoTrack Logo" class="w-full h-full object-contain" style="mix-blend-mode: multiply;">

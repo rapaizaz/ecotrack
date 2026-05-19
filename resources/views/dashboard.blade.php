@@ -16,7 +16,7 @@
     </div>
 </div>
 
-<!-- AI Insight Banner -->
+
 <div class="mb-8 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
     <div class="absolute -right-10 -top-10 opacity-10 text-9xl rotate-12">
         <i class="fas fa-brain"></i>
@@ -36,7 +36,7 @@
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-    <!-- Eco Score Card -->
+    
     <div class="lg:col-span-2 bg-gradient-to-br from-emerald-600 to-teal-700 rounded-3xl p-8 text-white shadow-xl shadow-emerald-200 relative overflow-hidden">
         <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl">
             <i class="fas fa-leaf"></i>
@@ -57,7 +57,7 @@
                     <div class="text-4xl font-bold">{{ $ecoScore->total_score ?? '0' }}%</div>
                     <div class="text-xs uppercase tracking-widest text-emerald-100">Optimal</div>
                 </div>
-                <!-- Circular Progress SVG (Placeholder) -->
+                
                 <svg class="absolute inset-0 w-full h-full -rotate-90">
                     <circle cx="96" cy="96" r="88" stroke="currentColor" stroke-width="8" fill="transparent" class="text-white/10" />
                     <circle cx="96" cy="96" r="88" stroke="currentColor" stroke-width="8" fill="transparent" class="text-emerald-300" stroke-dasharray="552.92" stroke-dashoffset="{{ 552.92 * (1 - ($ecoScore->total_score ?? 0) / 100) }}" />
@@ -66,7 +66,7 @@
         </div>
     </div>
 
-    <!-- Monthly Summary -->
+    
     <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
         <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
             <i class="fas fa-calendar-check text-emerald-600"></i> Ringkasan {{ \Carbon\Carbon::now()->format('F Y') }}
@@ -116,7 +116,7 @@
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-    <!-- Main Stats Chart -->
+    
     <div class="lg:col-span-2 bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
         <div class="flex items-center justify-between mb-8">
             <h3 class="text-xl font-bold text-slate-900">Grafik Penggunaan</h3>
@@ -137,9 +137,9 @@
         </div>
     </div>
 
-    <!-- Recommendations & Challenges -->
+    
     <div class="space-y-8">
-        <!-- Recommendations -->
+        
         <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
             <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
                 <i class="fas fa-lightbulb text-yellow-500"></i> Rekomendasi
@@ -154,7 +154,7 @@
             </div>
         </div>
 
-        <!-- Badges -->
+        
         <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
              <div class="flex items-center justify-between mb-6">
                 <h3 class="text-lg font-bold flex items-center gap-2">
@@ -178,13 +178,17 @@
     </div>
 </div>
 
-<!-- Recent Activities -->
-<div class="mt-8 bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
-    <h3 class="text-xl font-bold text-slate-900 mb-6">Aktivitas Terbaru</h3>
-    <div class="overflow-x-auto">
+
+<div class="mt-8 bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-bold text-slate-900">Aktivitas Terbaru</h3>
+        <a href="{{ route('history') }}" class="text-emerald-600 text-xs font-bold hover:underline">Lihat Riwayat</a>
+    </div>
+    
+    <div class="hidden md:block overflow-x-auto">
         <table class="w-full">
             <thead>
-                <tr class="text-left text-xs font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">
+                <tr class="text-left text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] border-b border-slate-100">
                     <th class="pb-4">Tipe Aktivitas</th>
                     <th class="pb-4">Nilai Input</th>
                     <th class="pb-4">Tanggal</th>
@@ -193,30 +197,55 @@
             </thead>
             <tbody class="divide-y divide-slate-50">
                 @forelse($history as $item)
-                <tr class="group hover:bg-slate-50 transition-all">
-                    <td class="py-4">
+                <tr class="group hover:bg-slate-50/50 transition-all">
+                    <td class="py-5">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-{{ $item['color'] }}-50 text-{{ $item['color'] }}-600 flex items-center justify-center">
+                            <div class="w-10 h-10 rounded-2xl bg-{{ $item['color'] }}-50 text-{{ $item['color'] }}-600 flex items-center justify-center shadow-sm">
                                 <i class="fas fa-{{ $item['type'] === 'Listrik' ? 'bolt' : ($item['type'] === 'Air' ? 'tint' : 'trash-alt') }}"></i>
                             </div>
-                            <span class="font-semibold text-slate-700">{{ $item['type'] }}</span>
+                            <span class="font-bold text-slate-700 tracking-tight">{{ $item['type'] }}</span>
                         </div>
                     </td>
-                    <td class="py-4 font-bold">{{ $item['value'] }}</td>
-                    <td class="py-4 text-slate-500 text-sm">{{ $item['date']->format('d M Y, H:i') }}</td>
-                    <td class="py-4">
-                        <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">Selesai</span>
+                    <td class="py-5 font-bold text-slate-900">{{ $item['value'] }}</td>
+                    <td class="py-5 text-slate-500 text-sm font-medium">{{ $item['date']->format('d M Y, H:i') }}</td>
+                    <td class="py-5">
+                        <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-[10px] font-extrabold rounded-full uppercase tracking-wider">Selesai</span>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="py-8 text-center text-slate-400">Belum ada aktivitas. Silakan masukkan data penggunaan pertama kamu!</td>
+                    <td colspan="4" class="py-12 text-center text-slate-400 font-medium">Belum ada aktivitas. Silakan masukkan data penggunaan pertama kamu!</td>
                 </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
+
+    <div class="md:hidden space-y-4">
+        @forelse($history as $item)
+        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-{{ $item['color'] }}-100 text-{{ $item['color'] }}-600 flex items-center justify-center text-xl shadow-sm">
+                <i class="fas fa-{{ $item['type'] === 'Listrik' ? 'bolt' : ($item['type'] === 'Air' ? 'tint' : 'trash-alt') }}"></i>
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="font-bold text-slate-900 tracking-tight">{{ $item['type'] }}</span>
+                    <span class="text-[10px] font-extrabold text-emerald-600 uppercase tracking-widest">Selesai</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-slate-600">{{ $item['value'] }}</span>
+                    <span class="text-[10px] font-medium text-slate-400">{{ $item['date']->format('d M Y') }}</span>
+                </div>
+            </div>
+        </div>
+        @empty
+        <div class="py-12 text-center text-slate-400 font-medium bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+            Belum ada aktivitas terbaru.
+        </div>
+        @endforelse
+    </div>
 </div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

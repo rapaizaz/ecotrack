@@ -38,15 +38,15 @@ class AIController extends Controller
         $user = Auth::user();
         $question = $request->question;
 
-        // 1. Try Multi-Provider AI (Gemini -> OpenAI -> Kimi)
+        
         $answer = $this->aiProvider->askEcoAssistant($user, $question);
 
-        // 2. Fallback Rule-based if ALL AI fail
+        
         if (!$answer) {
             $answer = $this->getRuleBasedAssistantFallback($question);
         }
 
-        // 3. Save to database
+        
         AIConversation::create([
             'user_id' => $user->id,
             'question' => $question,
@@ -76,21 +76,21 @@ class AIController extends Controller
         $month = now()->month;
         $year = now()->year;
 
-        // 1. Check if data exists
+        
         $hasData = $this->checkUserMonthlyData($user, $month, $year);
         if (!$hasData) {
             return back()->with('error', 'Silakan input data listrik, air, dan sampah terlebih dahulu sebelum generate insight.');
         }
 
-        // 2. Try Multi-Provider AI (Gemini -> OpenAI -> Kimi)
+        
         $answer = $this->aiProvider->generateEcoInsight($user, $month, $year);
 
-        // 3. Fallback Rule-based if ALL AI fail
+        
         if (!$answer) {
             $answer = $this->getRuleBasedInsightFallback($user, $month, $year);
         }
 
-        // 4. Update or create record
+        
         AIInsight::updateOrCreate(
             ['user_id' => $user->id, 'month' => $month, 'year' => $year],
             ['insight' => $answer]
@@ -114,7 +114,7 @@ class AIController extends Controller
         return response()->json(['summary' => $summary]);
     }
 
-    // --- Private Helpers ---
+    
 
     private function checkUserMonthlyData($user, $month, $year)
     {

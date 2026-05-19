@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('challenge_id')->constrained()->onDelete('cascade');
-            $table->string('status')->default('ongoing'); // ongoing, completed, failed
+            $table->string('status')->default('ongoing'); 
             $table->integer('progress')->default(0);
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();

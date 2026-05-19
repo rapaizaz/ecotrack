@@ -50,15 +50,15 @@ class AiProviderService
 
     protected function tryProviders($prompt)
     {
-        // Try Gemini (Primary)
+        
         $response = $this->gemini->generate($prompt);
         if ($response) return $response;
 
-        // Try OpenAI (Secondary)
+        
         $response = $this->openai->generate($prompt);
         if ($response) return $response;
 
-        // Try Kimi Fallback
+        
         $response = $this->kimi->generate($prompt);
         if ($response) return $response;
 

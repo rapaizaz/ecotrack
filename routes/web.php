@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ElectricityUsageController;
@@ -18,7 +19,7 @@ use App\Http\Controllers\AdminTipController;
 use App\Http\Controllers\AdminChallengeController;
 use App\Http\Controllers\AdminBadgeController;
 
-// Landing Page
+
 Route::get('/', function () {
     $totalUsers = \App\Models\User::where('role', 'user')->count();
     $latestUsers = \App\Models\User::where('role', 'user')->latest()->take(3)->get();
@@ -27,14 +28,14 @@ Route::get('/', function () {
     return view('welcome', compact('totalUsers', 'latestUsers', 'landingSetting', 'problems'));
 })->name('home');
 
-// Authentication
+
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register')->middleware('guest');
 Route::post('/register', [AuthController::class, 'register'])->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// User Routes
+
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
@@ -60,7 +61,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    // AI Features
+    
     Route::get('/ai-assistant', [\App\Http\Controllers\AIController::class, 'assistant'])->name('ai.assistant');
     Route::post('/ai-assistant/ask', [\App\Http\Controllers\AIController::class, 'askAssistant'])->name('ai.assistant.ask');
     Route::get('/ai-insight', [\App\Http\Controllers\AIController::class, 'insight'])->name('ai.insight');
@@ -68,7 +69,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::post('/monthly-report/generate-ai-summary', [\App\Http\Controllers\AIController::class, 'generateAISummary'])->name('monthly-report.ai-summary');
 });
 
-// Admin Routes
+
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
@@ -80,9 +81,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('challenges', AdminChallengeController::class);
     Route::resource('badges', AdminBadgeController::class);
     
-    Route::get('/statistics', [AdminDashboardController::class, 'index'])->name('statistics'); // Simplified for demo
+    Route::get('/statistics', [AdminDashboardController::class, 'index'])->name('statistics'); 
 
-    // Landing Page Settings
+    
     Route::get('/landing-settings', [\App\Http\Controllers\AdminLandingSettingController::class, 'index'])->name('landing-settings.index');
     Route::post('/landing-settings', [\App\Http\Controllers\AdminLandingSettingController::class, 'update'])->name('landing-settings.update');
     Route::post('/landing-settings/problem/{id}', [\App\Http\Controllers\AdminLandingSettingController::class, 'updateProblem'])->name('landing-settings.update-problem');

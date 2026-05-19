@@ -7,7 +7,7 @@
 </div>
 
 <div class="space-y-8">
-    <!-- Electricity History -->
+    
     <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="p-6 border-b border-slate-100 flex items-center justify-between">
             <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <!-- Water History -->
+    
     <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="p-6 border-b border-slate-100 flex items-center justify-between">
             <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">

@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('icon');
-            $table->string('requirement_type'); // electricity, water, waste, total, first_input
+            $table->string('requirement_type');
             $table->integer('requirement_value');
             $table->timestamps();
         });

@@ -15,7 +15,7 @@
     </style>
 </head>
 <body class="bg-white text-slate-800">
-    <!-- Navbar -->
+    
     <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
@@ -43,7 +43,7 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    
     <section id="home" class="pt-32 pb-20 hero-bg overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row items-center gap-12">
@@ -60,13 +60,13 @@
                         EcoTrack membantu kamu mencatat penggunaan listrik, air, dan sampah untuk membangun gaya hidup hemat, ramah lingkungan, dan berkelanjutan secara digital.
                     </p>
                     
-                    <!-- User Count Social Proof -->
+                    
                     <div class="flex items-center justify-center lg:justify-start gap-4 mb-10">
                         <div class="flex -space-x-3">
                             @foreach($latestUsers as $user)
-                                <img class="inline-block h-12 w-12 rounded-full ring-4 ring-white object-cover" 
-                                     src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random&color=fff" 
-                                     alt="{{ $user->name }}">
+                                <div class="inline-block h-12 w-12 rounded-full ring-4 ring-white bg-[#f0f2f5] flex items-end justify-center overflow-hidden">
+                                    <i class="fas fa-user text-[#bfc5c9] text-3xl mb-[-4px]"></i>
+                                </div>
                             @endforeach
                             
                             @if($totalUsers > 3)
@@ -100,7 +100,7 @@
         </div>
     </section>
 
-    <!-- Problem/Features Section -->
+    
     <section id="fitur" class="py-20 bg-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-3xl font-bold text-slate-900 mb-4">Masalah yang Kita Hadapi</h2>
@@ -112,14 +112,12 @@
                         @if($problem->image_path)
                             <img src="{{ asset('storage/' . $problem->image_path) }}" alt="{{ $problem->title }}" class="w-full h-full object-cover">
                         @else
-                            {{-- Fallback default images --}}
-                            @php
-                                $defaultImages = [
+                            
+                            @php $defaultImages = [
                                     'Boros Listrik' => 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=800',
                                     'Pemakaian Air Berlebih' => 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&q=80&w=800',
                                     'Sampah Tak Terkelola' => 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=800'
-                                ];
-                            @endphp
+                                ]; @endphp
                             <img src="{{ $defaultImages[$problem->title] ?? 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=800' }}" alt="{{ $problem->title }}" class="w-full h-full object-cover">
                         @endif
                         <div class="absolute inset-0 bg-{{ $problem->bg_color_class ?? 'emerald' }}-600/10"></div>
@@ -137,7 +135,7 @@
         </div>
     </section>
 
-    <!-- AI Features Section -->
+    
     <section class="py-20 relative overflow-hidden bg-white">
         <div class="absolute top-0 right-0 w-1/3 h-full bg-emerald-50/50 -skew-x-12 transform origin-right"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -151,7 +149,7 @@
             </div>
 
             <div class="grid md:grid-cols-2 gap-12">
-                <!-- AI Assistant -->
+                
                 <div class="group bg-white rounded-3xl shadow-xl shadow-slate-100 border border-slate-100 overflow-hidden hover:border-emerald-500 transition-all duration-500 hover:-translate-y-2">
                     <div class="h-64 overflow-hidden bg-emerald-50 relative">
                         <img src="https://images.unsplash.com/photo-1675557009875-436f297b9a6e?auto=format&fit=crop&q=80&w=800" alt="AI Assistant Illustration" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
@@ -172,7 +170,7 @@
                     </div>
                 </div>
 
-                <!-- AI Insight -->
+                
                 <div class="group bg-white rounded-3xl shadow-xl shadow-slate-100 border border-slate-100 overflow-hidden hover:border-blue-500 transition-all duration-500 hover:-translate-y-2">
                     <div class="h-64 overflow-hidden bg-blue-50 relative">
                         <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="AI Insight Illustration" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
@@ -196,7 +194,7 @@
         </div>
     </section>
 
-    <!-- Solution/How it works Section -->
+    
     <section id="cara-kerja" class="py-20 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row items-center gap-16">
@@ -227,7 +225,7 @@
         </div>
     </section>
 
-    <!-- Benefits/CTA Section -->
+    
     <section id="manfaat" class="py-20 bg-emerald-900 text-white text-center">
         <div class="max-w-4xl mx-auto px-4">
             <h2 class="text-4xl font-bold mb-6">Mulai Gaya Hidup Hemat dan Ramah Lingkungan Hari Ini</h2>

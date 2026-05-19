@@ -57,7 +57,7 @@ class DashboardController extends Controller
             ->where('year', $year)
             ->first();
 
-        // AI Recommendation with Fallback
+        
         $aiRec = $this->aiProvider->generateRecommendations($user, $month, $year);
         if ($aiRec) {
             $recommendations = array_filter(explode("\n", $aiRec));
@@ -68,7 +68,7 @@ class DashboardController extends Controller
         $activeChallenges = $user->challenges()->where('status', 'ongoing')->get();
         $recentBadges = $user->badges()->orderBy('earned_at', 'desc')->take(4)->get();
         
-        // History
+        
         $history = collect();
         $history = $history->concat(ElectricityUsage::where('user_id', $user->id)->orderBy('created_at', 'desc')->take(5)->get()->map(fn($item) => ['type' => 'Listrik', 'value' => $item->kwh . ' kWh', 'date' => $item->created_at, 'color' => 'blue']));
         $history = $history->concat(WaterUsage::where('user_id', $user->id)->orderBy('created_at', 'desc')->take(5)->get()->map(fn($item) => ['type' => 'Air', 'value' => $item->cubic_meter . ' m³', 'date' => $item->created_at, 'color' => 'cyan']));
@@ -76,7 +76,7 @@ class DashboardController extends Controller
         
         $history = $history->sortByDesc('date')->take(5);
 
-        // Chart Data (Last 6 months)
+        
         $chartData = $this->getChartData($user);
 
         return view('dashboard', compact(

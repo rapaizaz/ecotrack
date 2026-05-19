@@ -41,7 +41,7 @@ class UsageSeeder extends Seeder
                 'cost' => $m3 * 5000,
             ]);
 
-            // Some waste records for the month
+            
             for ($j = 1; $j <= 4; $j++) {
                 WasteRecord::create([
                     'user_id' => $user->id,

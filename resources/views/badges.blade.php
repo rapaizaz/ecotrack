@@ -12,7 +12,7 @@
         @php $isEarned = in_array($badge->id, $userBadges); @endphp
         <div class="text-center group">
             <div class="relative inline-block mb-4">
-                <!-- Badge Glow -->
+                
                 @if($isEarned)
                 <div class="absolute inset-0 bg-emerald-400 blur-2xl opacity-20 group-hover:opacity-40 transition-all rounded-full"></div>
                 @endif

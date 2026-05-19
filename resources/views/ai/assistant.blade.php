@@ -9,11 +9,11 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="md:col-span-2 space-y-6">
-            <!-- Chat Container -->
+            
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm flex flex-col h-[600px]">
                 <div class="flex-1 overflow-y-auto p-6 space-y-6" id="chat-container">
                     @forelse($conversations->reverse() as $chat)
-                        <!-- User Question -->
+                        
                         <div class="flex justify-end">
                             <div class="bg-emerald-600 text-white px-6 py-3 rounded-2xl rounded-tr-none max-w-[80%] shadow-md">
                                 <p class="text-sm font-medium">{{ $chat->question }}</p>
@@ -21,7 +21,7 @@
                             </div>
                         </div>
 
-                        <!-- AI Answer -->
+                        
                         <div class="flex justify-start">
                             <div class="bg-slate-50 text-slate-800 px-6 py-4 rounded-2xl rounded-tl-none max-w-[80%] border border-slate-100 shadow-sm">
                                 <div class="flex items-center gap-2 mb-2 text-emerald-600">
@@ -45,7 +45,7 @@
                     @endforelse
                 </div>
 
-                <!-- Input Area -->
+                
                 <div class="p-4 border-t border-slate-100">
                     <form action="{{ route('ai.assistant.ask') }}" method="POST" class="flex gap-2">
                         @csrf

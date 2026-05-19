@@ -54,7 +54,7 @@
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- Global Stats Chart -->
+    
     <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
         <h3 class="text-xl font-bold mb-6">Perkembangan Eco Score Global</h3>
         <div class="h-80">
@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    <!-- Platform Insights -->
+    
     <div class="space-y-6">
         <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 text-white">
             <h3 class="text-lg font-bold mb-6 flex items-center gap-2">

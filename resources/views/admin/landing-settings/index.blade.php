@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <!-- Right Side Sidebar Info -->
+    
     <div class="lg:col-span-1 space-y-6">
         <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
             <h3 class="text-lg font-bold mb-4 uppercase tracking-wider text-slate-500 text-xs">Hero Image Preview</h3>
