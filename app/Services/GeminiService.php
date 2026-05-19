@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Log;
 
 class GeminiService
 {
-    protected $apiKey;
-    protected $model;
+    public $apiKey;
+    public $model;
+    public $lastError = null;
+    public $lastErrorStatus = null;
     protected $baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/';
 
     public function __construct()
@@ -17,10 +19,17 @@ class GeminiService
         $this->model = config('services.gemini.model', 'gemini-2.0-flash');
     }
 
+    public function setCredentials($apiKey, $model)
+    {
+        $this->apiKey = $apiKey;
+        $this->model = $model ?: 'gemini-2.0-flash';
+    }
+
     public function generate($prompt)
     {
         if (empty($this->apiKey)) {
-            Log::error('Gemini API Key is missing in configuration.');
+            $this->lastError = 'Gemini API Key is missing in configuration.';
+            Log::error($this->lastError);
             return null;
         }
 
@@ -39,19 +48,30 @@ class GeminiService
 
             if ($response->successful()) {
                 $result = $response->json();
-                return $result['candidates'][0]['content']['parts'][0]['text'] ?? null;
+                $text = $result['candidates'][0]['content']['parts'][0]['text'] ?? null;
+                if ($text) {
+                    $this->lastErrorStatus = null;
+                    return $text;
+                }
             }
 
+            $this->lastErrorStatus = $response->status();
+            $body = $response->body();
+            $this->lastError = "Gemini API Error (status {$response->status()}): {$body}";
+            
             Log::error('Gemini API Error', [
                 'status' => $response->status(),
-                'body' => $response->body(),
+                'body' => $body,
+                'model' => $this->model
             ]);
 
-            return null;
         } catch (\Exception $e) {
-            Log::error('Gemini Service Exception: ' . $e->getMessage());
-            return null;
+            $this->lastErrorStatus = 500;
+            $this->lastError = 'Gemini Service Exception: ' . $e->getMessage();
+            Log::error($this->lastError);
         }
+
+        return null;
     }
 
     public function askEcoAssistant($question, $user = null)

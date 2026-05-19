@@ -39,7 +39,11 @@
                 <div class="bg-slate-50 px-10 py-6 border-t border-slate-100 flex justify-between items-center">
                     <p class="text-xs text-slate-400 italic">Disusun secara otomatis oleh EcoTrack AI pada {{ $insight->updated_at->format('d M Y, H:i') }}</p>
                     <div class="flex gap-2">
-                        <span class="px-3 py-1 bg-white border border-slate-200 rounded-full text-[10px] font-bold text-slate-500 uppercase">Gemini 1.5 Flash</span>
+                        @if($insight->provider && strtolower($insight->provider) !== 'offline')
+                            <span class="px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-full text-[10px] font-bold text-emerald-600 uppercase">{{ strtolower($insight->provider) === 'gemini' ? 'F3R Analysis' : $insight->provider }}</span>
+                        @else
+                            <span class="px-3 py-1 bg-amber-50 border border-amber-200 rounded-full text-[10px] font-bold text-amber-600 uppercase">Offline</span>
+                        @endif
                     </div>
                 </div>
             </div>

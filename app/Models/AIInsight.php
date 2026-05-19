@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AIInsight extends Model
 {
     protected $table = 'ai_insights';
-    protected $fillable = ['user_id', 'month', 'year', 'insight'];
+    protected $fillable = ['user_id', 'month', 'year', 'insight', 'provider', 'model'];
 
     public function user()
     {

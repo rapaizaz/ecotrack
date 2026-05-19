@@ -24,9 +24,16 @@
                         
                         <div class="flex justify-start">
                             <div class="bg-slate-50 text-slate-800 px-6 py-4 rounded-2xl rounded-tl-none max-w-[80%] border border-slate-100 shadow-sm">
-                                <div class="flex items-center gap-2 mb-2 text-emerald-600">
-                                    <i class="fas fa-robot"></i>
-                                    <span class="text-xs font-bold uppercase tracking-widest">Eco Assistant</span>
+                                <div class="flex items-center justify-between gap-4 mb-2">
+                                    <div class="flex items-center gap-2 text-emerald-600">
+                                        <i class="fas fa-robot"></i>
+                                        <span class="text-xs font-bold uppercase tracking-widest">Eco Assistant</span>
+                                    </div>
+                                    @if(isset($chat->provider) && $chat->provider && strtolower($chat->provider) !== 'offline')
+                                        <span class="px-2 py-0.5 bg-emerald-100/50 rounded-full text-[9px] font-bold text-emerald-700 uppercase tracking-wider">{{ strtolower($chat->provider) === 'gemini' ? 'F3R' : $chat->provider }}</span>
+                                    @else
+                                        <span class="px-2 py-0.5 bg-slate-200/60 rounded-full text-[9px] font-bold text-slate-500 uppercase tracking-wider">Offline</span>
+                                    @endif
                                 </div>
                                 <div class="text-sm leading-relaxed prose prose-sm max-w-none">
                                     {!! nl2br(e($chat->answer)) !!}

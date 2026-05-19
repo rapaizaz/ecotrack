@@ -8,18 +8,19 @@ use App\Models\WaterUsage;
 use App\Models\WasteRecord;
 use App\Models\MonthlyTarget;
 use App\Services\RecommendationService;
+use App\Services\AIService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     protected $recommendationService;
-    protected $aiProvider;
+    protected $aiService;
 
-    public function __construct(RecommendationService $recommendationService, \App\Services\AiProviderService $aiProvider)
+    public function __construct(RecommendationService $recommendationService, AIService $aiService)
     {
         $this->recommendationService = $recommendationService;
-        $this->aiProvider = $aiProvider;
+        $this->aiService = $aiService;
     }
 
     public function index()
@@ -57,8 +58,26 @@ class DashboardController extends Controller
             ->where('year', $year)
             ->first();
 
-        
-        $aiRec = $this->aiProvider->generateRecommendations($user, $month, $year);
+        // Standardized dynamic call via AIService
+        $dataSummary = [
+            'user_name' => $user->name,
+            'electricity' => $electricity ? $electricity->kwh : 0,
+            'water' => $water ? $water->cubic_meter : 0,
+            'waste' => $totalWaste,
+            'eco_score' => $ecoScore ? $ecoScore->total_score : 0,
+        ];
+
+        $prompt = "Berikan 3-5 rekomendasi personal praktis untuk {$user->name} agar lebih ramah lingkungan berdasarkan data berikut:
+- Listrik: {$dataSummary['electricity']} kWh
+- Air: {$dataSummary['water']} m³
+- Sampah: {$dataSummary['waste']} kg
+- Eco Score: {$dataSummary['eco_score']}/100
+
+Format respon harus berupa daftar poin-poin singkat dalam Bahasa Indonesia. Jangan gunakan template offline.";
+
+        $aiResult = $this->aiService->generateResponse($prompt);
+        $aiRec = $aiResult['content'];
+
         if ($aiRec) {
             $recommendations = array_filter(explode("\n", $aiRec));
         } else {
@@ -68,7 +87,6 @@ class DashboardController extends Controller
         $activeChallenges = $user->challenges()->where('status', 'ongoing')->get();
         $recentBadges = $user->badges()->orderBy('earned_at', 'desc')->take(4)->get();
         
-        
         $history = collect();
         $history = $history->concat(ElectricityUsage::where('user_id', $user->id)->orderBy('created_at', 'desc')->take(5)->get()->map(fn($item) => ['type' => 'Listrik', 'value' => $item->kwh . ' kWh', 'date' => $item->created_at, 'color' => 'blue']));
         $history = $history->concat(WaterUsage::where('user_id', $user->id)->orderBy('created_at', 'desc')->take(5)->get()->map(fn($item) => ['type' => 'Air', 'value' => $item->cubic_meter . ' m³', 'date' => $item->created_at, 'color' => 'cyan']));
@@ -76,7 +94,6 @@ class DashboardController extends Controller
         
         $history = $history->sortByDesc('date')->take(5);
 
-        
         $chartData = $this->getChartData($user);
 
         return view('dashboard', compact(

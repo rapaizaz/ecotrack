@@ -31,12 +31,42 @@
                     <a href="#cara-kerja" class="text-slate-600 hover:text-emerald-600 font-medium">Cara Kerja</a>
                     <a href="#manfaat" class="text-slate-600 hover:text-emerald-600 font-medium">Manfaat</a>
                 </div>
-                <div class="flex items-center gap-4">
+                <div class="hidden md:flex items-center gap-4">
                     @auth
                         <a href="{{ route('dashboard') }}" class="bg-emerald-600 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200">Dashboard</a>
                     @else
                         <a href="{{ route('login') }}" class="text-slate-600 font-semibold hover:text-emerald-600">Login</a>
                         <a href="{{ route('register') }}" class="bg-emerald-600 text-white px-6 py-2.5 rounded-full font-semibold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-200">Mulai Sekarang</a>
+                    @endauth
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="flex md:hidden items-center">
+                    <button id="mobile-menu-button" type="button" class="text-slate-600 hover:text-emerald-600 hover:bg-slate-50 p-2 rounded-xl transition-all focus:outline-none" aria-label="Toggle Menu">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24" id="menu-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg class="h-6 w-6 hidden" stroke="currentColor" fill="none" viewBox="0 0 24 24" id="close-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer/Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white/95 backdrop-blur-lg transition-all duration-300 ease-in-out absolute w-full left-0 shadow-lg">
+            <div class="px-4 pt-4 pb-6 space-y-3">
+                <a href="#home" class="block px-4 py-2.5 rounded-xl text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 font-semibold transition-all">Home</a>
+                <a href="#fitur" class="block px-4 py-2.5 rounded-xl text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 font-semibold transition-all">Fitur</a>
+                <a href="#cara-kerja" class="block px-4 py-2.5 rounded-xl text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 font-semibold transition-all">Cara Kerja</a>
+                <a href="#manfaat" class="block px-4 py-2.5 rounded-xl text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 font-semibold transition-all">Manfaat</a>
+                <div class="pt-4 border-t border-slate-100 flex flex-col gap-3">
+                    @auth
+                        <a href="{{ route('dashboard') }}" class="w-full text-center bg-emerald-600 text-white py-3 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100">Dashboard</a>
+                    @else
+                        <a href="{{ route('login') }}" class="w-full text-center text-slate-700 hover:bg-slate-50 py-3 rounded-xl font-semibold transition-all border border-slate-200">Login</a>
+                        <a href="{{ route('register') }}" class="w-full text-center bg-emerald-600 text-white py-3 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100">Mulai Sekarang</a>
                     @endauth
                 </div>
             </div>
@@ -237,5 +267,35 @@
     <footer class="py-10 border-t border-slate-100 text-center text-slate-500">
         <p>&copy; 2026 EcoTrack. Smart Solution for Sustainable Living.</p>
     </footer>
+
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        mobileMenuButton.addEventListener('click', () => {
+            const isOpen = !mobileMenu.classList.contains('hidden');
+            if (isOpen) {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            } else {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            }
+        });
+
+        // Close menu when clicking links
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            });
+        });
+    </script>
 </body>
 </html>

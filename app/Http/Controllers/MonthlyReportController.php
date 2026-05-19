@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\ReportService;
+use App\Services\AIService;
 use App\Models\ElectricityUsage;
 use App\Models\WaterUsage;
 use App\Models\WasteRecord;
@@ -13,12 +14,12 @@ use Carbon\Carbon;
 class MonthlyReportController extends Controller
 {
     protected $reportService;
-    protected $aiProvider;
+    protected $aiService;
 
-    public function __construct(ReportService $reportService, \App\Services\AiProviderService $aiProvider)
+    public function __construct(ReportService $reportService, AIService $aiService)
     {
         $this->reportService = $reportService;
-        $this->aiProvider = $aiProvider;
+        $this->aiService = $aiService;
     }
 
     public function index(Request $request)

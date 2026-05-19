@@ -7,20 +7,29 @@ use Illuminate\Support\Facades\Log;
 
 class OpenAiService
 {
-    protected $apiKey;
-    protected $model;
+    public $apiKey;
+    public $model;
+    public $lastError = null;
+    public $lastErrorStatus = null;
     protected $baseUrl = 'https://api.openai.com/v1/chat/completions';
 
     public function __construct()
     {
         $this->apiKey = config('services.openai.key');
-        $this->model = config('services.openai.model');
+        $this->model = config('services.openai.model', 'gpt-4o-mini');
+    }
+
+    public function setCredentials($apiKey, $model)
+    {
+        $this->apiKey = $apiKey;
+        $this->model = $model ?: 'gpt-4o-mini';
     }
 
     public function generate($prompt)
     {
         if (empty($this->apiKey)) {
-            Log::warning('OpenAI API Key is empty.');
+            $this->lastError = 'OpenAI API Key is empty.';
+            Log::warning($this->lastError);
             return null;
         }
 
@@ -36,23 +45,30 @@ class OpenAiService
 
             if ($response->successful()) {
                 $result = $response->json();
-                return $result['choices'][0]['message']['content'] ?? null;
+                $text = $result['choices'][0]['message']['content'] ?? null;
+                if ($text) {
+                    $this->lastErrorStatus = null;
+                    return $text;
+                }
             }
 
             $this->handleError($response);
-            return null;
         } catch (\Exception $e) {
-            Log::error('OpenAI Service Exception: ' . $e->getMessage());
-            return null;
+            $this->lastErrorStatus = 500;
+            $this->lastError = 'OpenAI Service Exception: ' . $e->getMessage();
+            Log::error($this->lastError);
         }
+
+        return null;
     }
 
     protected function handleError($response)
     {
-        $status = $response->status();
+        $this->lastErrorStatus = $response->status();
         $body = $response->body();
+        $this->lastError = "OpenAI API Error (status {$this->lastErrorStatus}): {$body}";
 
-        switch ($status) {
+        switch ($this->lastErrorStatus) {
             case 401:
                 Log::error('OpenAI API 401: Invalid API Key.');
                 break;
@@ -60,7 +76,7 @@ class OpenAiService
                 Log::error('OpenAI API 429: Quota Exceeded.');
                 break;
             default:
-                Log::error("OpenAI API Error {$status}: {$body}");
+                Log::error("OpenAI API Error {$this->lastErrorStatus}: {$body}");
         }
     }
 }

@@ -7,20 +7,29 @@ use Illuminate\Support\Facades\Log;
 
 class KimiService
 {
-    protected $apiKey;
-    protected $model;
+    public $apiKey;
+    public $model;
+    public $lastError = null;
+    public $lastErrorStatus = null;
     protected $baseUrl = 'https://api.moonshot.cn/v1/chat/completions';
 
     public function __construct()
     {
         $this->apiKey = config('services.kimi.key');
-        $this->model = config('services.kimi.model');
+        $this->model = config('services.kimi.model', 'moonshot-v1-8k');
+    }
+
+    public function setCredentials($apiKey, $model)
+    {
+        $this->apiKey = $apiKey;
+        $this->model = $model ?: 'moonshot-v1-8k';
     }
 
     public function generate($prompt)
     {
         if (empty($this->apiKey)) {
-            Log::warning('Kimi API Key is empty.');
+            $this->lastError = 'Kimi API Key is empty.';
+            Log::warning($this->lastError);
             return null;
         }
 
@@ -36,23 +45,30 @@ class KimiService
 
             if ($response->successful()) {
                 $result = $response->json();
-                return $result['choices'][0]['message']['content'] ?? null;
+                $text = $result['choices'][0]['message']['content'] ?? null;
+                if ($text) {
+                    $this->lastErrorStatus = null;
+                    return $text;
+                }
             }
 
             $this->handleError($response);
             return null;
         } catch (\Exception $e) {
-            Log::error('Kimi Service Exception: ' . $e->getMessage());
+            $this->lastErrorStatus = 500;
+            $this->lastError = 'Kimi Service Exception: ' . $e->getMessage();
+            Log::error($this->lastError);
             return null;
         }
     }
 
     protected function handleError($response)
     {
-        $status = $response->status();
+        $this->lastErrorStatus = $response->status();
         $body = $response->body();
+        $this->lastError = "Kimi API Error (status {$this->lastErrorStatus}): {$body}";
 
-        switch ($status) {
+        switch ($this->lastErrorStatus) {
             case 401:
                 Log::error('Kimi API 401: Invalid API Key.');
                 break;
@@ -60,7 +76,7 @@ class KimiService
                 Log::error('Kimi API 429: Quota Exceeded.');
                 break;
             default:
-                Log::error("Kimi API Error {$status}: {$body}");
+                Log::error("Kimi API Error {$this->lastErrorStatus}: {$body}");
         }
     }
 }

@@ -28,6 +28,8 @@ Route::get('/', function () {
     return view('welcome', compact('totalUsers', 'latestUsers', 'landingSetting', 'problems'));
 })->name('home');
 
+Route::get('/test-ai', [\App\Http\Controllers\AIController::class, 'testAI'])->name('ai.test');
+
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest');
